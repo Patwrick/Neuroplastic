@@ -132,6 +132,17 @@ class InfantSurvive(SimpleEmbodimentEnvSpec):
     def get_docstring(self) -> str:
         return "InfantSurvive-v0: minimal survival sandbox for custom experiments."
 
+    def register(self) -> None:
+        if _is_gym_registered(self.name):
+            return
+        register_env_spec = _resolve_register_env_spec()
+        try:
+            register_env_spec(self)
+        except Exception:
+            if _is_gym_registered(self.name):
+                return
+            raise
+
 
 def _resolve_register_env_spec():
     candidates = [
@@ -150,9 +161,22 @@ def _resolve_register_env_spec():
     raise ImportError("Could not find a MineRL env spec register function")
 
 
+def _is_gym_registered(env_id: str) -> bool:
+    try:
+        from gym.envs.registration import registry
+    except Exception:
+        return False
+
+    if hasattr(registry, "env_specs"):
+        return env_id in registry.env_specs
+    try:
+        return env_id in registry
+    except Exception:
+        return False
+
+
 def register():
-    register_env_spec = _resolve_register_env_spec()
-    register_env_spec(InfantSurvive())
+    InfantSurvive().register()
 
 
 InfantSurviveEnvSpec = InfantSurvive

@@ -2,9 +2,6 @@
 import os
 import sys
 
-import gym
-import minerl  # noqa: F401 - ensure MineRL envs are registered
-import numpy as np  # noqa: F401
 
 
 def _unwrap_reset(reset_out):
@@ -33,47 +30,40 @@ def _shape(value):
     return type(value).__name__
 
 
-def _pick_key(obs, keys):
-    for key in keys:
-        if key in obs:
-            return key
-    return None
-
-
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if root not in sys.path:
         sys.path.insert(0, root)
 
-    from envs import infant_survive_envspec
+    from envs.make_env import make_env
 
-    infant_survive_envspec.register()
-
-    env = gym.make("InfantSurvive-v0")
+    env = make_env("InfantSurvive-v0")
     obs = _unwrap_reset(env.reset())
     action = env.action_space.noop()
 
     reward = 0.0
     done = False
-    for _ in range(200):
+    for step_idx in range(200):
         obs, reward, done, info = _step(env, action)
+        milestone_reward = info.get("milestone_reward", 0) if isinstance(info, dict) else 0
+        milestones_unlocked = info.get("milestones_unlocked", []) if isinstance(info, dict) else []
+        print(
+            f"step {step_idx}: reward={reward} done={done} "
+            f"milestone_reward={milestone_reward} milestones_unlocked={milestones_unlocked}"
+        )
         if done:
             obs = _unwrap_reset(env.reset())
             done = False
 
     print("Observation keys:", list(obs.keys()))
 
-    key = _pick_key(obs, ["pov"])
-    print("pov shape:", _shape(obs.get(key) if key else None))
+    print("pov shape:", _shape(obs.get("pov")))
 
-    key = _pick_key(obs, ["location_stats", "location"])
-    print("location shape:", _shape(obs.get(key) if key else None))
+    print("location shape:", _shape(obs.get("location")))
 
-    key = _pick_key(obs, ["life_stats", "lifestats"])
-    print("lifestats shape:", _shape(obs.get(key) if key else None))
+    print("life_stats shape:", _shape(obs.get("life_stats")))
 
-    key = _pick_key(obs, ["inventory"])
-    print("inventory shape:", _shape(obs.get(key) if key else None))
+    print("inventory shape:", _shape(obs.get("inventory")))
 
     print("reward:", reward)
     print("done:", done)
