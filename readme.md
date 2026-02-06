@@ -26,3 +26,10 @@ python scripts/smoke_test_minestudio.py
 ```
 
 If running headless, you may need `Xvfb` for MineStudio rendering.
+
+## ML toy experiment (no MineStudio required)
+
+```bash
+pip install -r requirements-ml.txt
+python scripts/run_toy_experiment.py
+```
