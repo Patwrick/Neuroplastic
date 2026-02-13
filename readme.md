@@ -33,3 +33,19 @@ If running headless, you may need `Xvfb` for MineStudio rendering.
 pip install -r requirements-ml.txt
 python scripts/run_toy_experiment.py
 ```
+
+## Docker Desktop (Windows)
+
+Run MineStudio smoke test in a Linux container:
+
+```powershell
+.\scripts\docker_minestudio_smoke.ps1
+```
+
+Open an interactive shell in the same Linux container setup:
+
+```powershell
+.\scripts\docker_minestudio_shell.ps1
+```
+
+On first run, MineStudio may prompt to download the simulator engine. Answer `Y` once; it is cached in the `minestudio_tmp` volume.

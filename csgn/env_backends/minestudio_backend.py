@@ -17,11 +17,34 @@ class MineStudioEnv(EmbodiedEnv):
         callbacks: list | None = None,
         debug: bool = False,
     ):
+        np_version = getattr(np, "__version__", "unknown")
+        try:
+            np_major = int(str(np_version).split(".", 1)[0])
+        except (TypeError, ValueError):
+            np_major = 0
+
+        if np_major >= 2:
+            raise RuntimeError(
+                f"Detected NumPy {np_version}. MineStudio pulls in Gym, which may not support NumPy 2.x. "
+                'Run: pip install "numpy<2" --upgrade'
+            )
+
         try:
             from minestudio.simulator import MinecraftSim
-        except ImportError as exc:
-            raise ImportError(
-                "MineStudio not installed. Install with: pip install -r requirements-minestudio.txt"
+        except ModuleNotFoundError as e:
+            if e.name == "minestudio":
+                raise ImportError(
+                    "MineStudio not installed. Install with: pip install -r requirements-minestudio.txt"
+                ) from e
+            raise RuntimeError(
+                f"MineStudio installed but missing dependency: {e.name}. Fix with: pip install {e.name} "
+                "(or reinstall requirements-minestudio.txt)"
+            ) from e
+        except ImportError as e:
+            raise RuntimeError(f"Failed to import MineStudio simulator: {e}") from e
+        except Exception as exc:
+            raise RuntimeError(
+                f"Failed to import MineStudio simulator ({exc.__class__.__name__}: {exc})"
             ) from exc
 
         self._obs_size = (int(obs_size[0]), int(obs_size[1]))
