@@ -9,3 +9,7 @@ build/
 .mypy_cache/
 .idea/
 .vscode/
+data/trajectories/
+data/rollouts/
+**/*.npy
+**/*.jsonl

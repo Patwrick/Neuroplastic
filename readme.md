@@ -34,6 +34,26 @@ pip install -r requirements-ml.txt
 python scripts/run_toy_experiment.py
 ```
 
+## GPU training (Blackwell/5090)
+
+Install CUDA 12.8 PyTorch wheels on Windows:
+
+```powershell
+.\scripts\install_torch_cu128.ps1
+```
+
+If stable wheels do not yet support your setup, install nightly CUDA 12.8 wheels:
+
+```powershell
+.\scripts\install_torch_nightly_cu128.ps1
+```
+
+Verify CUDA availability:
+
+```bash
+python scripts/verify_torch_cuda.py
+```
+
 ## Docker Desktop (Windows)
 
 Run MineStudio smoke test in a Linux container:
@@ -63,3 +83,13 @@ Record a MineStudio rollout inside the Linux container:
 Output is written to:
 
 `data/trajectories/<run_id>/`
+
+## Roll out BC policy in MineStudio (Docker)
+
+```powershell
+.\scripts\docker_rollout_bc.ps1 -Steps 200 -Seed 123
+```
+
+Output is written to:
+
+`data/rollouts/<run_id>/`
