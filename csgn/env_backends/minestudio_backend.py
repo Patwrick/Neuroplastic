@@ -29,6 +29,16 @@ class MineStudioEnv(EmbodiedEnv):
                 'Run: pip install "numpy<2" --upgrade'
             )
 
+        self._obs_size = (int(obs_size[0]), int(obs_size[1]))
+        self._render_size = (int(render_size[0]), int(render_size[1]))
+        self._action_type = action_type
+        self._callbacks = list(callbacks or [])
+        self._debug = bool(debug)
+        self._sim: Any | None = None
+        self._make_sim(seed)
+        self._seed = int(seed)
+
+    def _make_sim(self, seed: int) -> None:
         try:
             from minestudio.simulator import MinecraftSim
         except ModuleNotFoundError as e:
@@ -47,14 +57,12 @@ class MineStudioEnv(EmbodiedEnv):
                 f"Failed to import MineStudio simulator ({exc.__class__.__name__}: {exc})"
             ) from exc
 
-        self._obs_size = (int(obs_size[0]), int(obs_size[1]))
-        self._debug = bool(debug)
         self._sim = MinecraftSim(
-            action_type=action_type,
-            obs_size=obs_size,
-            render_size=render_size,
-            seed=seed,
-            callbacks=callbacks or [],
+            action_type=self._action_type,
+            obs_size=self._obs_size,
+            render_size=self._render_size,
+            seed=int(seed),
+            callbacks=list(self._callbacks),
         )
 
     @property
@@ -124,8 +132,16 @@ class MineStudioEnv(EmbodiedEnv):
         return out
 
     def reset(self, *, seed: int | None = None) -> tuple[Obs, dict]:
-        if seed is not None and hasattr(self._sim, "seed"):
-            self._sim.seed(seed)
+        if seed is not None:
+            seed_int = int(seed)
+            if seed_int != self._seed:
+                try:
+                    if self._sim is not None:
+                        self._sim.close()
+                except Exception:
+                    pass
+                self._make_sim(seed_int)
+                self._seed = seed_int
 
         result = self._sim.reset()
         if isinstance(result, tuple) and len(result) == 2:

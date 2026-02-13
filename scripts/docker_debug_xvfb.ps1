@@ -8,11 +8,10 @@ if (-not (Test-Path -LiteralPath $ComposeFile -PathType Leaf)) {
     throw "Compose file not found. Expected path: $ComposeFile"
 }
 
+$Inner = "bash docker/run_with_xvfb.sh /bin/echo OK_XVFB_DIRECT"
+
 Write-Host "RepoRoot: $RepoRoot"
 Write-Host "ComposeFile: $ComposeFile"
-
-$Inner = "bash docker/run_with_xvfb.sh python -u scripts/smoke_test_minestudio.py"
 Write-Host "Inner command: $Inner"
 
-docker compose -f $ComposeFile build
 docker compose -f $ComposeFile run --rm minestudio bash -lc "$Inner"
