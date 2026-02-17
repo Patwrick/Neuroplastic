@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime
+import os
 from pathlib import Path
 import sys
 import traceback
@@ -44,6 +45,14 @@ def choose_action(env: Any) -> Any:
     return 0
 
 
+def read_git_stamp() -> tuple[str | None, str | None]:
+    commit = os.getenv("CSGN_GIT_COMMIT")
+    dirty = os.getenv("CSGN_GIT_DIRTY")
+    commit_out = commit.strip() if commit is not None and commit.strip() else None
+    dirty_out = dirty.strip() if dirty is not None and dirty.strip() else None
+    return commit_out, dirty_out
+
+
 def main() -> None:
     args = parse_args()
     if args.steps <= 0:
@@ -55,6 +64,7 @@ def main() -> None:
         f"start: backend={args.backend} steps={args.steps} seed={args.seed} out_dir={args.out_dir}",
         flush=True,
     )
+    git_commit, git_dirty = read_git_stamp()
 
     env_kwargs: dict[str, Any] = {}
     if args.backend == "minestudio":
@@ -97,6 +107,8 @@ def main() -> None:
             meta={
                 "backend": args.backend,
                 "seed": args.seed,
+                "git_commit": git_commit,
+                "git_dirty": git_dirty,
                 "action_type": args.action_type if args.backend == "minestudio" else None,
                 "obs_size": [args.obs_h, args.obs_w] if args.backend == "minestudio" else None,
                 "render_size": [args.render_w, args.render_h] if args.backend == "minestudio" else None,

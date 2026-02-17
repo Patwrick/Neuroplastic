@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime
+import os
 from pathlib import Path
 import sys
 import traceback
@@ -120,6 +121,14 @@ def decode_action(vec: torch.Tensor, action_spec: ActionSpec, camera_scale: floa
     return out
 
 
+def read_git_stamp() -> tuple[str | None, str | None]:
+    commit = os.getenv("CSGN_GIT_COMMIT")
+    dirty = os.getenv("CSGN_GIT_DIRTY")
+    commit_out = commit.strip() if commit is not None and commit.strip() else None
+    dirty_out = dirty.strip() if dirty is not None and dirty.strip() else None
+    return commit_out, dirty_out
+
+
 def main() -> None:
     args = parse_args()
     if args.steps <= 0:
@@ -128,6 +137,7 @@ def main() -> None:
         raise ValueError(f"--log_every must be > 0, got {args.log_every}")
     if args.camera_scale <= 0:
         raise ValueError(f"--camera_scale must be > 0, got {args.camera_scale}")
+    git_commit, git_dirty = read_git_stamp()
 
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -192,6 +202,8 @@ def main() -> None:
             meta={
                 "backend": "minestudio",
                 "seed": int(args.seed),
+                "git_commit": git_commit,
+                "git_dirty": git_dirty,
                 "checkpoint": str(checkpoint_path),
                 "device": str(device),
                 "camera_scale": float(args.camera_scale),
