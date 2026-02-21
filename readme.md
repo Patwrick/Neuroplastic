@@ -175,3 +175,40 @@ Plot summary CSVs to PNG:
 ```bash
 python scripts/plot_cue_summaries.py --summary_dir runs/EXP6
 ```
+
+## Neural Plastic Cue Policy (No Minecraft)
+
+Fast training on a pure-Python cue bandit environment:
+
+```bash
+python scripts/train_plastic_cue.py --device cuda --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --episodes 2000
+```
+
+Evaluate to rollout-style metrics under a tag:
+
+```bash
+python scripts/eval_plastic_cue.py --checkpoint runs/plastic_cue.pt --tag EXP_NEURAL_PLASTIC --steps 2000 --seeds 0,1,2,3,4 --device cuda
+```
+
+EXP11 override example (checkpoint config + explicit eval overrides):
+
+```bash
+python scripts/eval_plastic_cue.py --device cuda --checkpoint runs/plastic_cue.pt --tag EXP11_NEURAL_PLASTIC --steps 2000 --seeds "0,1,2,3,4" --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --permute_every 250
+```
+
+EXP12 paired neural baselines (plastic vs static) into one tag:
+
+```bash
+python scripts/train_plastic_cue.py --mode neural_plastic --device cuda --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --save_path runs/plastic_cue_plastic.pt
+python scripts/train_plastic_cue.py --mode neural_static --device cuda --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --save_path runs/plastic_cue_static.pt
+python scripts/eval_plastic_cue.py --device cuda --checkpoint runs/plastic_cue_plastic.pt --tag EXP12_NEURAL_BASELINES --steps 2000 --seeds "0,1,2,3,4" --permute_ids --permute_every 250
+python scripts/eval_plastic_cue.py --device cuda --checkpoint runs/plastic_cue_static.pt --tag EXP12_NEURAL_BASELINES --steps 2000 --seeds "0,1,2,3,4" --permute_ids --permute_every 250
+python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts/EXP12_NEURAL_BASELINES --out_dir runs/EXP12_NEURAL_BASELINES --dedupe longest
+python scripts/plot_cue_summaries.py --summary_dir runs/EXP12_NEURAL_BASELINES
+```
+
+Aggregate with existing summarizer:
+
+```bash
+python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts/EXP_NEURAL_PLASTIC --out_dir runs/EXP_NEURAL_PLASTIC --dedupe longest
+```

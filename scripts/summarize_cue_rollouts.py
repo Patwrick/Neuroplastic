@@ -99,7 +99,10 @@ def first_non_none(*values: Any) -> Any:
 
 
 def parse_mode_from_name(name: str) -> str | None:
-    match = re.search(r"cue_(slot_hash_plastic|slot_hash_static|slot_plastic|slot_static|plastic|static)", name)
+    match = re.search(
+        r"cue_(neural_fast_only|neural_plastic|neural_static|slot_hash_plastic|slot_hash_static|slot_plastic|slot_static|plastic|static)",
+        name,
+    )
     if not match:
         return None
     return match.group(1)
@@ -436,6 +439,8 @@ def build_paired_deltas(runs: list[dict[str, Any]], max_window: int) -> list[dic
         ("slot_plastic", "slot_static"),
         ("slot_plastic", "slot_hash_plastic"),
         ("slot_hash_plastic", "slot_hash_static"),
+        ("neural_plastic", "neural_static"),
+        ("neural_plastic", "neural_fast_only"),
     ]
     grouped: dict[tuple[Any, ...], dict[str, list[dict[str, Any]]]] = {}
     for run in runs:
