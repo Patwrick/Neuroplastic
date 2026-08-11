@@ -171,7 +171,7 @@ Therefore \(\lVert m_{i,q}^t\rVert_2\le M_{\max}\sqrt{d_m}\). Each edge selects 
 For active source \(i\), slot logits are
 
 \[
-\ell_{i,s}^t=rac{(W_Qh_i^t)^\top(W_Kh_{\tau(i,s)}^t)}{\sqrt{d_k}}
+\ell_{i,s}^t=\frac{(W_Qh_i^t)^\top(W_Kh_{\tau(i,s)}^t)}{\sqrt{d_k}}
 +b_{\kappa(i,s)}+b_{r(i),r(\tau(i,s))}.
 \tag{8}
 \]
@@ -513,7 +513,7 @@ S_q^t=Q_q\left(
 \tag{42}
 \]
 
-Drift is measured on fixed anchor probes, not by comparing hidden states from unrelated environmental moments. Example metrics include output KL divergence, anchor prediction loss, representation discrepancy, calibration shift, graph load concentration, and recurrent sensitivity.
+Drift is measured on fixed anchor probes, not by comparing hidden states from unrelated environmental moments. Example metrics include output KL divergence, anchor prediction loss, representation discrepancy, calibration shift, graph load concentration, and recurrent sensitivity. Terms entering the pressure score are robustly normalized against running reference distributions.
 
 A pressure score is
 
@@ -554,6 +554,8 @@ w_{i,s}^{(0)}+\alpha_bf_{i,s}^{(0)}
 \]
 
 so the transfer is exactly function preserving in real arithmetic. Quantization is postponed or accompanied by a residual accumulator; any remaining quantization error is explicitly measured before commit.
+
+A hot edge may be evicted only after its fast state has decayed below tolerance, has been deliberately discarded as reversible context, or has passed through a validated transfer transaction. Silent eviction of nonzero fast state is prohibited.
 
 ### 8.3 Replay-constrained sleep objective
 
@@ -764,16 +766,20 @@ Only active or recently active plastic edges receive fast state and eligibility.
 
 ### 11.3 Online quantized updates
 
-Initial experiments use FP16/BF16 or INT8 slow state. INT4 is tested only after stable higher-precision baselines exist. Small updates use a higher-precision residual or hot master value:
+Initial experiments use FP16/BF16 or INT8 slow state. INT4 is tested only after stable higher-precision baselines exist. Let \(\Delta w\) be an accepted slow update and \(r\) a higher-precision residual. Define
 
 \[
-\widehat w=Q_b(w+r),
+u=w+\Delta w+r,
 \qquad
-r\leftarrow w+r-\widehat w,
+\widehat w=Q_b(u),
+\qquad
+r\leftarrow u-\widehat w,
+\qquad
+w\leftarrow\widehat w.
 \tag{58}
 \]
 
-with stochastic rounding and blockwise scale updates. Saturation rate, quantization error, and post-transfer output discontinuity are measured. An edge is not returned to cold storage until these checks pass.
+Use stochastic rounding and blockwise scale updates. Saturation rate, quantization error, and post-transfer output discontinuity are measured. An edge is not returned to cold storage until these checks pass.
 
 ---
 
