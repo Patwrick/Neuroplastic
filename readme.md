@@ -1,214 +1,98 @@
-# CSGN Minecraft Env Scaffold
+# Neuroplastic
 
-Minimal backend-agnostic environment scaffold with:
-- `toy` backend (runs without MineStudio)
-- `minestudio` backend (lazy-imported MineStudio wrapper)
+**Building toward AI that learns, remembers, and reorganizes through experience.**
 
-Python: `3.10+`
+Neuroplastic is an experimental research project exploring how an AI model can keep learning as it operates. The aim is to give a model the ability to adapt its connections, consolidate useful experiences into lasting memory, and allocate its capacity as the world around it changes.
 
-## Install core dependencies
+The project centers on **Cortical Synaptic Graph Networks (CSGN)**: a proposed architecture that brings together recurrent graph computation, fast and slow synaptic memory, structural plasticity, and a wake–sleep learning cycle.
+
+The central question is simple: **can a model learn something new quickly, retain what matters, and keep adapting within a fixed memory and compute budget?**
+
+> **Status:** Early research and prototyping. This repository contains the architecture specification, a mathematical audit, and runnable experiments for individual mechanisms. Implementing and validating the complete CSGN v0.3 design is the next stage of the project.
+
+## The model we want to build
+
+Neuroplasticity provides the inspiration: experience can change both the strength of connections and how a network is organized. CSGN turns that idea into a set of mechanisms that can be implemented, measured, and challenged experimentally.
+
+| Mechanism | Intended role in the model |
+| --- | --- |
+| **Fast plasticity** | Update short-lived synaptic state during interaction so recent feedback can immediately influence behavior. |
+| **Slow synaptic memory** | Preserve useful structure and knowledge across experiences. |
+| **Structural adaptation** | Reassign a limited number of connections toward useful relationships while preserving graph connectivity. |
+| **Working and episodic memory** | Maintain immediate context and store selected experiences for later retrieval and replay, within explicit capacity limits. |
+| **Wake–sleep consolidation** | Alternate online adaptation with maintenance periods that replay experience, evaluate changes, and commit accepted updates to longer-term memory. |
+| **Sparse execution** | Concentrate computation on an active part of the stored graph, with measurable memory and compute costs. |
+
+In the proposed wake phase, the model interacts with an environment and makes bounded local updates. During sleep, it transfers fast state into slower memory, replays selected experiences, and evaluates candidate changes to weights and connections. The v0.3 design requires validation and rollback before those changes are accepted.
+
+The long-term goal is continual learning: acquiring new abilities, revising outdated associations, and retaining useful knowledge over time. Success depends on demonstrating that these mechanisms work together under controlled comparisons.
+
+## What exists today
+
+The code explores several parts of this design at small scales:
+
+- **A neural plasticity benchmark:** a trainable neural policy with slow weights and reward-modulated fast state, evaluated on cue-to-action tasks. Plastic, static, and fast-only modes allow comparisons as cue mappings and frequencies change.
+- **Connection-budget experiments:** cue agents compare fixed slot assignments with utility-based reassignment under the same slot budget.
+- **An early graph-core prototype:** recurrent message passing, fast and slow edge state, eligibility traces, replay, and sleep/rewiring hooks.
+- **Experiment tooling:** trajectory recording, checkpointing, seed sweeps, metrics, summaries, and plots, plus interchangeable toy and MineStudio environment backends.
+
+The neural cue policy and the graph core are separate prototypes. The cue trainer currently uses supervised target labels to train slow parameters; evaluation adapts fast state using reward feedback. The graph core still has the implementation and mathematical limitations identified in the audit, and its committed toy runs do not establish a learning or retention advantage. The full v0.3 memory, sparse-execution, and transactional consolidation systems remain to be built and tested.
+
+## Where Minecraft fits
+
+Minecraft, through MineStudio, is one experimental environment for perception, action, and recorded experience. The architecture is intended to work across environments, and the core plasticity experiments run independently of Minecraft. Current MineStudio cue benchmarks use an added synthetic cue task to isolate adaptation.
+
+Development starts with small tasks that isolate adaptation, forgetting, and connection allocation. Richer environments become useful once those mechanisms can be measured reliably.
+
+## Try a small experiment
+
+Use **Python 3.11 or 3.12** with the current dependency constraints. From the repository root, create and activate a virtual environment, then install the core and ML dependencies:
 
 ```bash
-pip install -r requirements-core.txt
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-core.txt -r requirements-ml.txt
 ```
 
-## Run toy smoke test
+On Windows PowerShell, activate it with `.\.venv\Scripts\Activate.ps1` instead.
+
+Check the toy environment:
 
 ```bash
 python scripts/smoke_test_toy.py
 ```
 
-## Optional: MineStudio backend
+Run a short CPU training example, then evaluate the saved policy on two seeds:
 
 ```bash
-pip install -r requirements-minestudio.txt
-python scripts/smoke_test_minestudio.py
+python scripts/train_plastic_cue.py --device cpu --episodes 5 --episode_len 20 --batch_size 8 --hidden_dim 32 --log_every 1 --save_path runs/plastic_cue_smoke.pt
+python scripts/eval_plastic_cue.py --device cpu --checkpoint runs/plastic_cue_smoke.pt --tag QUICKSTART --steps 200 --seeds 0,1
 ```
 
-If running headless, you may need `Xvfb` for MineStudio rendering.
+This short run checks the training and evaluation pipeline. Assessing learning quality requires longer runs, multiple seeds, and matched baselines. Evaluation writes metrics and metadata under `data/rollouts/QUICKSTART/`.
 
-## ML toy experiment (no MineStudio required)
+See the [experiments and setup guide](Docs/experiments.md) for larger cue experiments, baseline comparisons, graph-core runs, GPU setup, plots, and optional MineStudio/Docker instructions.
 
-```bash
-pip install -r requirements-ml.txt
-python scripts/run_toy_experiment.py
-```
+## Research direction
 
-## GPU training (Blackwell/5090)
+The next milestone is a small, integrated CSGN implementation with reproducible evidence for its learning behavior. The work is organized around four questions:
 
-Install CUDA 12.8 PyTorch wheels on Windows:
+1. **Adaptation:** Does online plasticity improve learning after a task changes, compared with matched static and replay-based models?
+2. **Retention:** Can consolidation preserve earlier skills while incorporating new experience?
+3. **Structure:** Does rewiring improve the use of a fixed connection budget compared with fixed topology?
+4. **Stability and efficiency:** Are updates bounded, rejected changes recoverable, and execution costs consistent with the active graph?
 
-```powershell
-.\scripts\install_torch_cu128.ps1
-```
+Larger models and more complex environments should follow evidence from these tests.
 
-If stable wheels do not yet support your setup, install nightly CUDA 12.8 wheels:
+## Design documents and code
 
-```powershell
-.\scripts\install_torch_nightly_cu128.ps1
-```
+- [CSGN v0.3 design paper](Docs/csgn_paper_v0_3.md) — the current proposed architecture and equations.
+- [Mathematical and feasibility audit](Docs/csgn_math_feasibility_audit_v0_3.md) — the analysis of v0.2 that motivated the revised design, including current implementation gaps.
+- [Residual risk register](Docs/csgn_v0_3_residual_risk_register.md) — unresolved questions about memory, concurrent updates, validation, and scaling.
+- [Experiments and setup](Docs/experiments.md) — detailed commands and experiment recipes.
+- [`csgn/model/`](csgn/model/) — graph-core and sleep-controller prototypes.
+- [`csgn/models/`](csgn/models/) and [`csgn/agents/`](csgn/agents/) — neural policies and cue-agent baselines.
+- [`csgn/envs/`](csgn/envs/) and [`csgn/env_backends/`](csgn/env_backends/) — cue tasks and environment adapters.
+- [`scripts/`](scripts/) — training, evaluation, recording, and analysis tools.
 
-Verify CUDA availability:
-
-```bash
-python scripts/verify_torch_cuda.py
-```
-
-## Docker Desktop (Windows)
-
-Run MineStudio smoke test in a Linux container:
-
-```powershell
-.\scripts\docker_minestudio_smoke.ps1
-```
-
-Open an interactive shell in the same Linux container setup:
-
-```powershell
-.\scripts\docker_minestudio_shell.ps1
-```
-
-On first run, MineStudio may prompt to download the simulator engine. Answer `Y` once; it is cached in the `minestudio_tmp` volume.
-
-Note: Docker scripts use `docker/run_with_xvfb.sh` instead of `xvfb-run`, because `xvfb-run` can hang under Docker Desktop/WSL2.
-
-## Recording trajectories (Docker)
-
-Record a MineStudio rollout inside the Linux container:
-
-```powershell
-.\scripts\docker_record_minestudio_trajectory.ps1 -Steps 500 -Seed 0
-```
-
-Output is written to:
-
-`data/trajectories/<run_id>/`
-
-## Roll out BC policy in MineStudio (Docker)
-
-```powershell
-.\scripts\docker_rollout_bc.ps1 -Steps 200 -Seed 123
-```
-
-Output is written to:
-
-`data/rollouts/<run_id>/`
-
-## Neuroplastic cue benchmark (MineStudio Docker)
-
-```powershell
-.\scripts\docker_rollout_cue_plastic.ps1 -Steps 200 -Seed 0 -Mode plastic
-.\scripts\docker_rollout_cue_plastic.ps1 -Steps 200 -Seed 0 -Mode static
-```
-
-Expected behavior: `plastic` should trend toward higher reward within an episode, especially when `change_every=0`.
-
-Structural plasticity (fixed synapse-slot budget with online rewiring):
-
-```powershell
-.\scripts\docker_rollout_cue_plastic.ps1 -Steps 500 -Seed 0 -Mode slot_plastic -ExtraArgs "--K 32 --slots 8 --cue_dist uniform"
-.\scripts\docker_rollout_cue_plastic.ps1 -Steps 500 -Seed 0 -Mode slot_plastic -ExtraArgs "--K 32 --slots 8 --cue_dist zipf --zipf_alpha 1.2"
-```
-
-The slot modes demonstrate structural plasticity: a limited number of connection slots rewires toward higher-utility cues. Under Zipf cue sampling, slot-limited agents should generally improve faster than with uniform sampling.
-
-Fixed-slot hash baseline (same slot budget, no rewiring) for fair comparison:
-
-```powershell
-.\scripts\docker_cue_sweep.ps1 -Tag EXP_HASH_BASELINE -Steps 2000 -Seeds "0,1,2,3,4" -K 32 -CueDist zipf -ZipfAlpha 1.2 -Modes "slot_hash_plastic,slot_plastic" -SlotsList "8"
-```
-
-Toy smoke check for the hash baseline:
-
-```bash
-python scripts/rollout_cue_plastic.py --backend toy --steps 200 --seed 0 --mode slot_hash_plastic --K 8 --slots 4 --cue_dist uniform --out_dir data/rollouts/tmp_hash_smoke
-```
-
-## Summarize cue rollouts
-
-```bash
-python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts --out_dir runs --dedupe longest
-```
-
-## Cue Sweep + Plots
-
-Run a Docker sweep across seeds/modes and write rollouts under a tag folder:
-
-```powershell
-.\scripts\docker_cue_sweep.ps1 -Tag EXP6 -Steps 2000 -Seeds "0,1,2,3,4" -K 32 -CueDist zipf -ZipfAlpha 1.2 -SlotsList "8"
-```
-
-Experiment versioning: sweep runs stamp the current git commit and dirty flag into each run's `meta.json` (and per-step metrics columns), and summaries include these fields for reproducibility.
-
-Example with explicit context shift/episode length:
-
-```powershell
-.\scripts\docker_cue_sweep.ps1 -Tag EXP7 -Steps 2000 -Seeds "0,1,2,3,4" -K 32 -CueDist zipf -ZipfAlpha 1.2 -SlotsList "8" -ChangeEvery 250 -EpisodeLen 500
-```
-
-Fair rewiring-vs-fixed mapping test under Zipf (permute cue IDs so popularity rank is decoupled from `cue_id % slots`):
-
-```powershell
-.\scripts\docker_cue_sweep.ps1 -Tag EXP9_ZIPF_PERMUTE -Steps 2000 -Seeds "0,1,2,3,4" -K 32 -CueDist zipf -ZipfAlpha 1.2 -Modes "slot_hash_plastic,slot_plastic,slot_hash_static,slot_static" -SlotsList "8" -ChangeEvery 250 -EpisodeLen 2000 -ExtraArgs "--permute_ids --permute_every 250 --permute_seed 123"
-```
-
-Summarize the tagged rollouts:
-
-```bash
-python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts/EXP6 --out_dir runs/EXP6 --dedupe longest
-```
-
-For EXP7:
-
-```bash
-python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts/EXP7 --out_dir runs/EXP7 --dedupe longest
-```
-
-For EXP9:
-
-```bash
-python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts/EXP9_ZIPF_PERMUTE --out_dir runs/EXP9_ZIPF_PERMUTE --dedupe longest
-```
-
-Plot summary CSVs to PNG:
-
-```bash
-python scripts/plot_cue_summaries.py --summary_dir runs/EXP6
-```
-
-## Neural Plastic Cue Policy (No Minecraft)
-
-Fast training on a pure-Python cue bandit environment:
-
-```bash
-python scripts/train_plastic_cue.py --device cuda --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --episodes 2000
-```
-
-Evaluate to rollout-style metrics under a tag:
-
-```bash
-python scripts/eval_plastic_cue.py --checkpoint runs/plastic_cue.pt --tag EXP_NEURAL_PLASTIC --steps 2000 --seeds 0,1,2,3,4 --device cuda
-```
-
-EXP11 override example (checkpoint config + explicit eval overrides):
-
-```bash
-python scripts/eval_plastic_cue.py --device cuda --checkpoint runs/plastic_cue.pt --tag EXP11_NEURAL_PLASTIC --steps 2000 --seeds "0,1,2,3,4" --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --permute_every 250
-```
-
-EXP12 paired neural baselines (plastic vs static) into one tag:
-
-```bash
-python scripts/train_plastic_cue.py --mode neural_plastic --device cuda --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --save_path runs/plastic_cue_plastic.pt
-python scripts/train_plastic_cue.py --mode neural_static --device cuda --K 32 --cue_dist zipf --zipf_alpha 1.2 --permute_ids --save_path runs/plastic_cue_static.pt
-python scripts/eval_plastic_cue.py --device cuda --checkpoint runs/plastic_cue_plastic.pt --tag EXP12_NEURAL_BASELINES --steps 2000 --seeds "0,1,2,3,4" --permute_ids --permute_every 250
-python scripts/eval_plastic_cue.py --device cuda --checkpoint runs/plastic_cue_static.pt --tag EXP12_NEURAL_BASELINES --steps 2000 --seeds "0,1,2,3,4" --permute_ids --permute_every 250
-python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts/EXP12_NEURAL_BASELINES --out_dir runs/EXP12_NEURAL_BASELINES --dedupe longest
-python scripts/plot_cue_summaries.py --summary_dir runs/EXP12_NEURAL_BASELINES
-```
-
-Aggregate with existing summarizer:
-
-```bash
-python scripts/summarize_cue_rollouts.py --rollouts_dir data/rollouts/EXP_NEURAL_PLASTIC --out_dir runs/EXP_NEURAL_PLASTIC --dedupe longest
-```
+The earlier [v0.2 paper](Docs/csgn_paper_v0_2.md) is retained for research history; v0.3 is the current design reference.
