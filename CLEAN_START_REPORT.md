@@ -13,9 +13,10 @@ rerun or learned experiment was implemented or launched.
 - The reviewed content commit's tree is `83ef3180bdcd50633225b4ef4628f374c21a36fc`, exactly
   equal to the approved proposal. Only factual ARCHIVE_INDEX.md and this report
   are committed on top. The containing documentation commit can be read with
-  `git log -1 --format=%H -- CLEAN_START_REPORT.md`; its exact final HEAD is also
-  recorded in the private `completion/final-state.json` and in the final report
-  at the original checkout root. This avoids a self-referential commit hash.
+  `git log -1 --format=%H -- CLEAN_START_REPORT.md`; the original preparation HEAD is
+  recorded in private `completion/final-state.json`, while later documentation
+  commits are recorded under `relocations/` and in the current report at the
+  original checkout root. This avoids a self-referential commit hash.
 - No push, merge, force operation, history rewrite, orphan history, branch/tag
   deletion, broad cleanup or original-checkout switch was performed.
 
@@ -62,7 +63,7 @@ Reference mathematics remains supplied research material, not an implemented mod
 
 ## Backup coverage and verification
 
-Approved private destination: `C:\Users\Patrick\ResearchArchives\Neuroplastic\2026-09-19`.
+Approved private destination: `C:\Users\Patrick\Desktop\ResearchArchives\Neuroplastic\2026-09-19`.
 It is outside both worktrees. Inheritance is disabled; ACLs grant access only to
 the current user, SYSTEM and Administrators. No uploads or visibility changes.
 
@@ -174,7 +175,31 @@ All paths below are relative to this new worktree, not the original checkout:
 12. `scripts/verify_handoff_subset.py` — integrity-only entrypoint.
 
 The intact complete release is privately preserved at
-`C:\Users\Patrick\ResearchArchives\Neuroplastic\2026-09-19\release\csgn_v0_4_1_codex_handoff.zip`
+`C:\Users\Patrick\Desktop\ResearchArchives\Neuroplastic\2026-09-19\release\csgn_v0_4_1_codex_handoff.zip`
 and its complete extraction at the sibling `csgn_v0_4_1_handoff/`. Use that complete
 extraction for scripts/validate_package.py; this subset intentionally cannot pass
 the original completeness check. Never recursively unpack historical archives here.
+
+## Archive relocation and cleanup status — 2026-09-19
+
+The user moved the archive from `C:\Users\Patrick\ResearchArchives\Neuroplastic\2026-09-19` to `C:\Users\Patrick\Desktop\ResearchArchives\Neuroplastic\2026-09-19`.
+All 347 preservation payload files and 20 completion files still match their
+recorded sizes/SHA-256 hashes. The two original manifest files remain unchanged.
+The move had re-enabled inherited ACLs; the previously approved private ACL was
+restored on the archive root (current user, SYSTEM, Administrators only).
+See `ARCHIVE_LOCATION.md` and `relocations/20260919T142309Z/` in the archive.
+
+The clean implementation worktree already has the approved legacy active paths
+removed. This task remains attached to the original checkout, so its preserved
+legacy files are still visible there. Both worktrees share the original repository's
+Git database. Do not delete that checkout or its .git directory as disk cleanup.
+
+Optional cleanup candidates are only the archive's `recovery-test/` (1,042,287,895
+logical bytes) and `validation-env/` (14,283,402 logical bytes). They are generated
+recovery/validation copies explicitly excluded from the archive payload manifests.
+No deletion has occurred. Deletion requires the user's specific choice; original
+research, uncommitted work, archive payloads, manifests, reports, refs, the old .venv,
+Docker image/volumes and the fresh implementation environment remain retained.
+Historical helper scripts and validation-environment launchers can contain old
+absolute paths; preserve those audit records and use the current archive root in
+future restoration commands. Do not rewrite sealed payloads to update paths.

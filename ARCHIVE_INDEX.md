@@ -7,7 +7,12 @@ The original checkout and its uncommitted work remain intact at
 `C:\Users\Patrick\Documents\GitHub\Neuroplastic`.
 
 Approved private local archive:
-`C:\Users\Patrick\ResearchArchives\Neuroplastic\2026-09-19`.
+`C:\Users\Patrick\Desktop\ResearchArchives\Neuroplastic\2026-09-19`.
+The user moved ResearchArchives to Desktop on 2026-09-19. All 347 preservation
+payload files and 20 completion files were rechecked successfully after the move.
+See `ARCHIVE_LOCATION.md` and `relocations/20260919T142309Z/` for the relocation record.
+Historical absolute paths inside sealed records describe the original location.
+
 Start with `RESTORE.md`, `BACKUP_VERIFICATION.md`, `EXCLUSIONS.json`, and
 `PRESERVATION_MANIFEST.sha256.json` there. The manifest SHA-256 is
 `f8e2bbd247f3d8b69e735a620bf0585eaecefa77a49d67dfe0e40c1f78448f7e`.
