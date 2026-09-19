@@ -1,4 +1,5 @@
 # Preserve verified research bytes on Windows regardless of core.autocrlf.
 *.py text eol=lf
 *.toml text eol=lf
+*.md text eol=lf
 Docs/research/csgn_v0_4_1/** -text

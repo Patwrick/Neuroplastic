@@ -1,5 +1,12 @@
 # Fresh environment and generated outputs; ignored does not mean disposable.
 .venv-v041/
+.venv/
+venv/
+env/
+ENV/
+data/
+runs/
+*.log
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -8,7 +15,17 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+.eggs/
+pip-wheel-metadata/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.tox/
+.nox/
+.ipynb_checkpoints/
 outputs/
+# Immutable original release ZIP is preserved locally, outside source commits.
+/csgn_v0_4_1_codex_handoff.zip
 # Preserve secret exclusions from the legacy repository.
 .env
 .env.*
@@ -17,5 +34,8 @@ outputs/
 *.p12
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 .DS_Store
 Thumbs.db

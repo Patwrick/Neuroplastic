@@ -1,3 +1,15 @@
+> **Canonical workspace note — 2026-09-19:** The active project is now
+> `C:\Users\Patrick\Documents\GitHub\Neuroplastic` on `main`.
+> `research/v0.4.1` preserves completed M0–M2 work at `1cccb5f`;
+> `legacy/pre-v0.4.1` preserves legacy source at `f0bd287`.
+> The separate worktree was retired after all 88 M0–M2 evidence files were
+> verified in this project's `outputs/v0.4.1/m0-m2-20260919/`.
+> The historical record below is unchanged and describes its original execution
+> time. Current README/AGENTS guidance supersedes its workspace/preparation
+> instructions. This correction does not start M2A or M3.
+> See [WORKSPACE_CORRECTION_REPORT.md](WORKSPACE_CORRECTION_REPORT.md) for current
+> workspace status and verification results.
+
 # CSGN v0.4.1 report-back
 
 ## 1. Identity and status

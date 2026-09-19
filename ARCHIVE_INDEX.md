@@ -1,10 +1,20 @@
 # Historical archive index
 
-Legacy repository: Patwrick/Neuroplastic, source branch `rewiring`.
-Historical commit: `6fa1c850f067de36db0c25a732873aa4d72ff181`.
+Repository: Patwrick/Neuroplastic. The only active project folder is
+`C:\Users\Patrick\Documents\GitHub\Neuroplastic`, with revised v0.4.1 on `main`.
+Legacy source is preserved on local `legacy/pre-v0.4.1` at `f0bd287`, including
+the outstanding source changes committed through GitHub Desktop during workspace
+correction. The completed M0–M2 implementation and reports remain on local
+`research/v0.4.1` at `1cccb5f`. Use GitHub Desktop for repository operations.
+
+Historical source branch: `rewiring`.
+Historical base commit: `6fa1c850f067de36db0c25a732873aa4d72ff181`.
 Annotated local archive tag: `archive/pre-v041-20260919T135101Z-6fa1c850`.
-The original checkout and its uncommitted work remain intact at
-`C:\Users\Patrick\Documents\GitHub\Neuroplastic`.
+The former separate `Neuroplastic-v0.4.1` worktree was retired after source and
+evidence preservation. Its 88 local M0–M2 evidence files were copied unchanged
+into the canonical project's `outputs/v0.4.1/m0-m2-20260919/` and verified by size
+and SHA-256. This index points to existing preservation records; no additional
+archive folder or archival workflow is required.
 
 Approved private local archive:
 `C:\Users\Patrick\Desktop\ResearchArchives\Neuroplastic\2026-09-19`.
@@ -29,10 +39,14 @@ Start with `RESTORE.md`, `BACKUP_VERIFICATION.md`, `EXCLUSIONS.json`, and
   verified and package validator passed 248 integrity/schema checks.
 - `environment/`: legacy environment metadata. Full .venv bytes, external base
   interpreter, Docker image layers and unreachable Git objects are not included;
-  originals remain untouched. Credentials/global config are not ordinary payloads.
+  these are historical coverage limits, not active-environment instructions.
+  Credentials/global config are not ordinary payloads.
 
 The approved path plan/diff are in `plan/`; execution records are in `completion/`.
 Historical algorithms, checkpoints and every outcome remain evidence for their
 original version only. None is a v0.4.1 specification or learned result.
 The active handoff is an explicitly manifested subset; its omitted archive files
-remain in the intact original release. See CLEAN_START_REPORT.md for this workspace.
+remain in the intact original release. See README.md for current workspace
+guidance and CLEAN_START_REPORT.md for the dated preparation record. Review
+legacy material only for a concrete unresolved issue and record the rationale;
+it does not define the new model.
