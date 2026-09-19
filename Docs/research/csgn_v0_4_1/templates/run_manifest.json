@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.4.1",
+  "run_id": "TEMPLATE_NOT_EXECUTED",
+  "status": "planned",
+  "evidence_class": "implementation_smoke",
+  "milestone": "M2",
+  "repository": "Patwrick/Neuroplastic",
+  "code_commit": null,
+  "git_dirty": null,
+  "dirty_diff_sha256": null,
+  "package_manifest_sha256": null,
+  "paper_sha256": null,
+  "config_sha256": null,
+  "task_split_sha256": null,
+  "train_seed": null,
+  "task_seed": null,
+  "evaluation_seed": null,
+  "started_at_utc": null,
+  "ended_at_utc": null,
+  "environment": {},
+  "commands": [],
+  "deviations": [],
+  "artifact_paths": [],
+  "resource_caps": {},
+  "notes": [
+    "Template only. Fill with actual run identity before reporting executed work."
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSGN run manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "status",
+    "evidence_class",
+    "milestone",
+    "repository",
+    "code_commit",
+    "git_dirty",
+    "dirty_diff_sha256",
+    "package_manifest_sha256",
+    "paper_sha256",
+    "config_sha256",
+    "task_split_sha256",
+    "train_seed",
+    "task_seed",
+    "evaluation_seed",
+    "started_at_utc",
+    "ended_at_utc",
+    "environment",
+    "commands",
+    "deviations",
+    "artifact_paths",
+    "resource_caps",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.4.1"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "in_progress",
+        "completed",
+        "failed",
+        "aborted",
+        "blocked",
+        "inconclusive"
+      ]
+    },
+    "evidence_class": {
+      "enum": [
+        "local_math",
+        "implementation_smoke",
+        "learned_pilot",
+        "independent_comparison",
+        "formal_conditional"
+      ]
+    },
+    "milestone": {
+      "type": "string"
+    },
+    "repository": {
+      "type": "string"
+    },
+    "code_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "git_dirty": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "dirty_diff_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "package_manifest_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "paper_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "config_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "task_split_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "train_seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "task_seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "evaluation_seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "started_at_utc": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ended_at_utc": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "environment": {
+      "type": "object"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "command",
+          "exit_code",
+          "duration_seconds",
+          "log_path"
+        ],
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "exit_code": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "duration_seconds": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "log_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "deviations": {
+      "type": "array",
+      "items": {}
+    },
+    "artifact_paths": {
+      "type": "array",
+      "items": {}
+    },
+    "resource_caps": {
+      "type": "object"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "code_commit": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          },
+          "git_dirty": {
+            "type": "boolean"
+          },
+          "paper_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "config_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "commands": {
+            "minItems": 1
+          },
+          "started_at_utc": {
+            "type": "string"
+          },
+          "ended_at_utc": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.4.1",
+  "run_id": "TEMPLATE_NOT_EXECUTED",
+  "status": "planned",
+  "evidence_class": "implementation_smoke",
+  "test_summary": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0
+  },
+  "metrics": [],
+  "resource_use": {},
+  "artifacts": [],
+  "limitations": [
+    "No experiment has been executed in this template."
+  ],
+  "claim_assessment": {
+    "H1": "untested",
+    "H2": "untested",
+    "H3": "untested"
+  }
+}

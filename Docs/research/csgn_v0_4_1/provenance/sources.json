@@ -1,0 +1,64 @@
+{
+  "release": "CSGN 0.4.1",
+  "prepared_date": "2026-09-16",
+  "repository_modified": false,
+  "observed_repo": {
+    "full_name": "Patwrick/Neuroplastic",
+    "default_branch": "main",
+    "commit": "281746c9ae962634df04ec34b3ba212af11b3cfd",
+    "readme_blob": "61cc928bae36a764ca5829668634c8a4d3897001",
+    "scope_of_read": "metadata and README only for handoff planning"
+  },
+  "baseline_files": [
+    {
+      "name": "csgn_paper_v0_4.md",
+      "bytes": 70647,
+      "sha256": "ee00053143fe902edff8f0881e6b901bdfc63a9ffbc4c32e76f91f83b85a5b18"
+    },
+    {
+      "name": "csgn_v0_4_research_package.zip",
+      "bytes": 263906,
+      "sha256": "747c70eea60847d5c5c1998b24f4fd4f9993505a6ca04d411bd8d823e5e05375"
+    },
+    {
+      "name": "csgn_math_reassessment.zip",
+      "bytes": 18992,
+      "sha256": "62ad9f6b8d522b2fceadc1aafa7915e30e6c321dd9afecb206ec2b90877530bc"
+    }
+  ],
+  "external_references_checked": [
+    {
+      "role": "agent-instruction placement",
+      "url": "https://developers.openai.com/codex/guides/agents-md",
+      "redirect": "https://learn.chatgpt.com/docs/agent-configuration/agents-md"
+    },
+    {
+      "role": "outer plasticity training precedent",
+      "url": "https://proceedings.mlr.press/v80/miconi18a.html"
+    },
+    {
+      "role": "fast-memory baseline precedent",
+      "url": "https://proceedings.mlr.press/v139/schlag21a.html"
+    },
+    {
+      "role": "test-time-learning precedent",
+      "url": "https://proceedings.mlr.press/v267/sun25h.html"
+    },
+    {
+      "role": "evaluation uncertainty",
+      "url": "https://proceedings.neurips.cc/paper/2021/hash/f514cec81cb148559cf475e7426eed5e-Abstract.html"
+    },
+    {
+      "role": "structured meta-learning motivation",
+      "url": "https://proceedings.mlr.press/v139/tripuraneni21a.html"
+    },
+    {
+      "role": "bounded LS diagnostic implementation",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.lsq_linear.html"
+    }
+  ],
+  "notes": [
+    "Historical publications motivate components, not complete CSGN validity.",
+    "No fonts, training checkpoints or implementation benchmark results are redistributed."
+  ]
+}
