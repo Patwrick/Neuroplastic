@@ -197,9 +197,12 @@ Git database. Do not delete that checkout or its .git directory as disk cleanup.
 Optional cleanup candidates are only the archive's `recovery-test/` (1,042,287,895
 logical bytes) and `validation-env/` (14,283,402 logical bytes). They are generated
 recovery/validation copies explicitly excluded from the archive payload manifests.
-No deletion has occurred. Deletion requires the user's specific choice; original
-research, uncommitted work, archive payloads, manifests, reports, refs, the old .venv,
-Docker image/volumes and the fresh implementation environment remain retained.
+The user explicitly approved deleting only these two directories. Automatic
+approval review rejected both the checked deletion command and the individual
+literal-path commands with only “blocked by policy” as the reason. No deletion
+was executed. Both directories, original research, uncommitted work, archive
+payloads, manifests, reports, refs, the old .venv, Docker image/volumes and the
+fresh implementation environment remain retained.
 Historical helper scripts and validation-environment launchers can contain old
 absolute paths; preserve those audit records and use the current archive root in
 future restoration commands. Do not rewrite sealed payloads to update paths.
