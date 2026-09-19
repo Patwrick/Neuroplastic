@@ -1,22 +1,33 @@
 # Historical archive index
 
-Legacy repository: Patwrick/Neuroplastic. Source branch: rewiring.
+Legacy repository: Patwrick/Neuroplastic, source branch `rewiring`.
 Historical commit: `6fa1c850f067de36db0c25a732873aa4d72ff181`.
 Annotated local archive tag: `archive/pre-v041-20260919T135101Z-6fa1c850`.
-The tag does not contain working-tree changes, ignored data, or environment files.
+The original checkout and its uncommitted work remain intact at
+`C:\Users\Patrick\Documents\GitHub\Neuroplastic`.
 
-Private backup destination proposed, awaiting approval:
+Approved private local archive:
 `C:\Users\Patrick\ResearchArchives\Neuroplastic\2026-09-19`.
-Backup creation/recovery verification is pending; this file makes no backup claim.
-Cleanup is gated on verified coverage and explicit approval of ARCHIVE_PLAN.md.
+Start with `RESTORE.md`, `BACKUP_VERIFICATION.md`, `EXCLUSIONS.json`, and
+`PRESERVATION_MANIFEST.sha256.json` there. The manifest SHA-256 is
+`f8e2bbd247f3d8b69e735a620bf0585eaecefa77a49d67dfe0e40c1f78448f7e`.
 
-The intended archive contains a reachable-history Git bundle, actual research
-file bytes, staged/unstaged binary patches, environment metadata, manifests,
-verification results and restoration instructions. Unreachable Git objects and
-offline Docker volumes require separate coverage decisions; originals stay intact.
-The original checkout remains at `C:\Users\Patrick\Documents\GitHub\Neuroplastic`.
+- `git/legacy-reachable.bundle`: all seven available local refs, verified by
+  bundle verification, independent mirror fsck and exact ref recovery. This is
+  not a full remote backup. No additional refs were fetched or pushed.
+- `working-tree/research.zip` and its manifest: all 831 original non-environment
+  research files, including dirty, untracked and ignored bytes. All extracted
+  hashes matched. Staged/unstaged binary patches are separately under `git/`.
+- `volumes/`: all four inventoried Docker volumes; all 686 file hashes passed
+  extraction and stable-source checks. Empty volumes have empty tar archives.
+- `release/csgn_v0_4_1_codex_handoff.zip`: intact original, original manifest
+  verified and package validator passed 248 integrity/schema checks.
+- `environment/`: legacy environment metadata. Full .venv bytes, external base
+  interpreter, Docker image layers and unreachable Git objects are not included;
+  originals remain untouched. Credentials/global config are not ordinary payloads.
 
-Original handoff ZIP SHA-256: `15152533d79407f84dd95778e255624fb4c07079f0814772d3819c02b32ccae2`.
-Its original manifest has 49 verified entries. The active working subset has its
-own manifest and explicitly omits historical archive entries. Historical papers,
-algorithms, checkpoints and runs remain evidence for their original versions only.
+The approved path plan/diff are in `plan/`; execution records are in `completion/`.
+Historical algorithms, checkpoints and every outcome remain evidence for their
+original version only. None is a v0.4.1 specification or learned result.
+The active handoff is an explicitly manifested subset; its omitted archive files
+remain in the intact original release. See CLEAN_START_REPORT.md for this workspace.
