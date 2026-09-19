@@ -1,0 +1,63 @@
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{xurl}
+\usepackage{needspace}
+\definecolor{CSGNInk}{HTML}{203745}
+\definecolor{CSGNTeal}{HTML}{1B6771}
+\definecolor{CSGNMuted}{HTML}{667681}
+\AtBeginDocument{\hypersetup{linkcolor=CSGNTeal,urlcolor=CSGNTeal,citecolor=CSGNTeal,pdftitle={CSGN v0.4.1: Objective-based plasticity, bounded graph computation, and verifiable consolidation},pdfauthor={NeuroPlastic Research Project}}}
+\titleformat{\section}{\Large\sffamily\bfseries\color{CSGNInk}}{}{0pt}{}
+\titleformat{\subsection}{\large\sffamily\bfseries\color{CSGNTeal}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{2.0ex plus .4ex}{0.8ex}
+\titlespacing*{\subsection}{0pt}{1.5ex plus .3ex}{0.5ex}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\linespread{1.05}
+\setlength{\emergencystretch}{3em}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\AtBeginEnvironment{longtable}{\small}
+\AtBeginEnvironment{verbatim}{\small}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\scriptsize\color{CSGNMuted}NEUROPLASTIC / RESEARCH SPECIFICATION}
+\fancyhead[R]{\sffamily\scriptsize\color{CSGNMuted}CSGN v0.4.1}
+\fancyfoot[L]{\sffamily\scriptsize\color{CSGNMuted}16 September 2026}
+\fancyfoot[R]{\sffamily\scriptsize\color{CSGNMuted}\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\headheight}{14pt}
+\setlength{\footskip}{24pt}
+\preto\section{\Needspace{7\baselineskip}}
+\preto\subsection{\Needspace{4\baselineskip}}
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\allowdisplaybreaks[1]
+\renewcommand{\contentsname}{Contents}
+\renewcommand{\maketitle}{%
+\begin{titlepage}
+\sffamily\raggedright
+{\color{CSGNTeal}\small NEUROPLASTIC RESEARCH PROJECT}\par
+\vspace{28mm}
+{\fontsize{32}{38}\selectfont\bfseries\color{CSGNInk}Cortical Synaptic\par Graph Networks}\par
+\vspace{8mm}
+{\fontsize{17}{23}\selectfont\color{CSGNInk}Objective-based plasticity,\par bounded graph computation,\par and verifiable consolidation}\par
+\vspace{13mm}
+{\large\bfseries\color{CSGNTeal}VERSION 0.4.1}\par
+\vspace{2mm}
+{\normalsize 16 September 2026}\par
+\vspace{16mm}
+{\color{CSGNTeal}\rule{\textwidth}{1.1pt}}\par
+\vspace{3mm}
+{\normalsize Prediction\ \(\rightarrow\)\ Error\ \(\rightarrow\)\ Bounded write\ \(\rightarrow\)\ Cold recall}\par
+\vfill
+{\small\bfseries Research specification, not an empirical validation.}\par
+\vspace{2mm}
+{\small Local guarantees are stated with their assumptions.\par Integrated learning, retention, robustness, and scale remain to be tested.}\par
+\vspace{7mm}
+{\color{CSGNMuted}\small Includes derivations, a lifecycle protocol, an experiment plan,\par and reproducible local mathematical checks.}\par
+\end{titlepage}
+}

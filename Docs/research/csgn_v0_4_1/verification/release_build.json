@@ -1,0 +1,20 @@
+{
+  "release": "0.4.1",
+  "paper_pages": 32,
+  "pdf_engine": "XeLaTeX via Pandoc",
+  "visual_renderer": "PyMuPDF",
+  "visual_review": "All 32 pages rendered and inspected in contact sheets; long-path overflow corrected before final build.",
+  "overfull_box_warnings": 0,
+  "missing_character_warnings": 0,
+  "math_checks": {
+    "groups": 24,
+    "local_cases": 19438,
+    "status": "pass",
+    "results": "results_v0_4_1.json"
+  },
+  "python_compile_check": "pass",
+  "report_collector_smoke": "pass; allowed report files included; .env/checkpoint fixture excluded; no upload",
+  "integrated_csgn_training": "not_run; Codex assignment",
+  "repository_writes": false,
+  "paper_sha256": "abe9fe9173bfd6fc96c9194d690d88ed795f224fa2fc3c756b0aeca167cf5f36"
+}

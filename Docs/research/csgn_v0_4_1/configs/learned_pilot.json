@@ -1,0 +1,133 @@
+{
+  "$schema": "../schemas/experiment_config.schema.json",
+  "schema_version": "0.4.1",
+  "config_id": "learned_pilot",
+  "stage": "M3",
+  "evidence_class": "learned_pilot",
+  "model": "graph_sleep",
+  "task_id": "T1",
+  "seed": 0,
+  "graph": {
+    "columns": 512,
+    "regions": 16,
+    "out_slots": 16,
+    "protected_slots": 4,
+    "state_dim": 64,
+    "message_dim": 16,
+    "heads": 4,
+    "descriptor_dim": 16,
+    "active_regions": 4,
+    "active_senders": 64,
+    "real_routes_per_sender": 4,
+    "incoming_capacity": 64,
+    "updated_node_cap": 384,
+    "inner_rounds": 4,
+    "output_receivers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "support_policy": "protected_output_slot_plus_topk",
+    "address_mode": "state_dependent"
+  },
+  "workspace": {
+    "kappa": 0.5,
+    "Ah_spectral_norm_max": 0.25,
+    "Br_times_Lm_max": 0.5,
+    "required_q_max": 0.875
+  },
+  "learning": {
+    "feasibility": "four_endpoint",
+    "wmax": 1.0,
+    "pmax": 1.0,
+    "beta": 0.7,
+    "rate_epsilon": 1e-08,
+    "per_edge_allowance": 0.05,
+    "total_write_budget": 1.0,
+    "admissible_decay": 1.0,
+    "ephemeral_time_constant": 100.0,
+    "gradient_mode": "continuous_full_path_conditional_support",
+    "projection": "exact_intersection_box",
+    "hot_state_layout": "dense_correctness_reference"
+  },
+  "task": {
+    "cue_dim": 16,
+    "context_dim": 8,
+    "classes": 8,
+    "target_dim": 8,
+    "target_scale": 0.1,
+    "contexts_per_lifetime": 2,
+    "cues_per_context": 16,
+    "support_passes": 1,
+    "queries_per_context": 32,
+    "feedback_delays": [
+      0,
+      1,
+      4
+    ],
+    "query_feedback": false,
+    "episode_answer_retrieval": false
+  },
+  "training": {
+    "train_shared_theta": true,
+    "outer_episodes": 200,
+    "batch_lifetimes": 4,
+    "outer_lr": 0.001,
+    "outer_optimizer": "Adam",
+    "max_outer_steps": 200
+  },
+  "sleep": {
+    "mode": "synchronous_reset_boundary",
+    "enabled": true,
+    "shared_theta_frozen": true,
+    "fast_disabled_during_fit": true,
+    "max_steps": 32,
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "replay_batch_size": 32,
+    "candidate_quantization": "none"
+  },
+  "evaluation": {
+    "per_task_episodes": 64,
+    "cold_disable_residuals": true,
+    "cold_disable_writes": true,
+    "cold_reset_workspace_wm": true,
+    "cold_disable_answer_retrieval": true,
+    "diagnostic_snapshot_rate": 0.1,
+    "max_oracle_calls": 64
+  },
+  "acceptance": {
+    "level": "empirical_screen",
+    "development_episodes": 64,
+    "max_old_loss_increase": 0.01,
+    "min_new_improvement": 0.0,
+    "formal_delta_lifetime": null,
+    "claim": "development screen only; no lifetime guarantee"
+  },
+  "resources": {
+    "device": "auto",
+    "precision": "float32",
+    "max_job_seconds": 7200,
+    "max_output_bytes": 2000000000,
+    "max_pending_records": 128,
+    "max_replay_records": 2048,
+    "max_hot_edge_identities": 8192,
+    "allow_paid_compute": false,
+    "allow_external_downloads": false
+  },
+  "disabled_extensions": [
+    "rewiring",
+    "INT4",
+    "offloading",
+    "asynchronous_sleep",
+    "online_theta_updates",
+    "learned_internal_teacher",
+    "Minecraft"
+  ],
+  "notes": [
+    "Pilot template. Launch only after M0\u2013M2 report is reviewed.",
+    "Run independent seeds 0,1,2 with separate output directories and the same total model-comparison budget.",
+    "The two-hour cap is an upper bound per approved job, not a guarantee of completion."
+  ]
+}

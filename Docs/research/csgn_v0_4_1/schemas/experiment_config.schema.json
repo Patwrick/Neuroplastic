@@ -1,0 +1,567 @@
+{
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.4.1"
+    },
+    "config_id": {
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ]
+    },
+    "evidence_class": {
+      "enum": [
+        "implementation_smoke",
+        "learned_pilot",
+        "independent_comparison"
+      ]
+    },
+    "model": {
+      "enum": [
+        "graph_sleep",
+        "graph_fast",
+        "delta_memory",
+        "static_graph",
+        "replay_only"
+      ]
+    },
+    "task_id": {
+      "enum": [
+        "T1",
+        "T2",
+        "T3"
+      ]
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "graph": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "regions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "out_slots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "protected_slots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "state_dim": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "message_dim": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "heads": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "descriptor_dim": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "active_regions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "active_senders": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "real_routes_per_sender": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "incoming_capacity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updated_node_cap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inner_rounds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "output_receivers": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "support_policy": {
+          "type": "string"
+        },
+        "address_mode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "columns",
+        "regions",
+        "out_slots",
+        "protected_slots",
+        "state_dim",
+        "message_dim",
+        "heads",
+        "descriptor_dim",
+        "active_regions",
+        "active_senders",
+        "real_routes_per_sender",
+        "incoming_capacity",
+        "updated_node_cap",
+        "inner_rounds",
+        "output_receivers",
+        "support_policy",
+        "address_mode"
+      ],
+      "additionalProperties": false
+    },
+    "workspace": {
+      "type": "object",
+      "properties": {
+        "kappa": {
+          "type": "number"
+        },
+        "Ah_spectral_norm_max": {
+          "type": "number"
+        },
+        "Br_times_Lm_max": {
+          "type": "number"
+        },
+        "required_q_max": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "kappa",
+        "Ah_spectral_norm_max",
+        "Br_times_Lm_max",
+        "required_q_max"
+      ],
+      "additionalProperties": false
+    },
+    "learning": {
+      "type": "object",
+      "properties": {
+        "feasibility": {
+          "enum": [
+            "four_endpoint",
+            "legacy_absolute_sum_labeled_ablation"
+          ]
+        },
+        "wmax": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "pmax": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "beta": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rate_epsilon": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "per_edge_allowance": {
+          "type": "number"
+        },
+        "total_write_budget": {
+          "type": "number"
+        },
+        "admissible_decay": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "ephemeral_time_constant": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "gradient_mode": {
+          "enum": [
+            "continuous_full_path_conditional_support",
+            "detached_feature_write_path"
+          ]
+        },
+        "projection": {
+          "type": "string"
+        },
+        "hot_state_layout": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "feasibility",
+        "wmax",
+        "pmax",
+        "beta",
+        "rate_epsilon",
+        "per_edge_allowance",
+        "total_write_budget",
+        "admissible_decay",
+        "ephemeral_time_constant",
+        "gradient_mode",
+        "projection",
+        "hot_state_layout"
+      ],
+      "additionalProperties": false
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "cue_dim": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "context_dim": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "classes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target_dim": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target_scale": {
+          "type": "number"
+        },
+        "contexts_per_lifetime": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cues_per_context": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "support_passes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "queries_per_context": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "feedback_delays": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "query_feedback": {
+          "type": "boolean"
+        },
+        "episode_answer_retrieval": {
+          "type": "boolean"
+        },
+        "rule_family": {
+          "enum": [
+            "diagonal_sign",
+            "signed_permutation"
+          ]
+        },
+        "rule_input_dim": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "support_rank_required": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "cue_dim",
+        "context_dim",
+        "classes",
+        "target_dim",
+        "target_scale",
+        "contexts_per_lifetime",
+        "cues_per_context",
+        "support_passes",
+        "queries_per_context",
+        "feedback_delays",
+        "query_feedback",
+        "episode_answer_retrieval"
+      ],
+      "additionalProperties": false
+    },
+    "training": {
+      "type": "object",
+      "properties": {
+        "train_shared_theta": {
+          "type": "boolean"
+        },
+        "outer_episodes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "batch_lifetimes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "outer_lr": {
+          "type": "number"
+        },
+        "outer_optimizer": {
+          "type": "string"
+        },
+        "max_outer_steps": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "train_shared_theta",
+        "outer_episodes",
+        "batch_lifetimes",
+        "outer_lr",
+        "outer_optimizer",
+        "max_outer_steps"
+      ],
+      "additionalProperties": false
+    },
+    "sleep": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "shared_theta_frozen": {
+          "type": "boolean"
+        },
+        "fast_disabled_during_fit": {
+          "type": "boolean"
+        },
+        "max_steps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "optimizer": {
+          "type": "string"
+        },
+        "lr": {
+          "type": "number"
+        },
+        "replay_batch_size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "candidate_quantization": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "enabled",
+        "shared_theta_frozen",
+        "fast_disabled_during_fit",
+        "max_steps",
+        "optimizer",
+        "lr",
+        "replay_batch_size",
+        "candidate_quantization"
+      ],
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "per_task_episodes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cold_disable_residuals": {
+          "const": true
+        },
+        "cold_disable_writes": {
+          "const": true
+        },
+        "cold_reset_workspace_wm": {
+          "const": true
+        },
+        "cold_disable_answer_retrieval": {
+          "const": true
+        },
+        "diagnostic_snapshot_rate": {
+          "type": "number"
+        },
+        "max_oracle_calls": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "per_task_episodes",
+        "cold_disable_residuals",
+        "cold_disable_writes",
+        "cold_reset_workspace_wm",
+        "cold_disable_answer_retrieval",
+        "diagnostic_snapshot_rate",
+        "max_oracle_calls"
+      ],
+      "additionalProperties": false
+    },
+    "acceptance": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "enum": [
+            "empirical_screen",
+            "formal_conditional"
+          ]
+        },
+        "development_episodes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_old_loss_increase": {
+          "type": "number"
+        },
+        "min_new_improvement": {
+          "type": "number"
+        },
+        "formal_delta_lifetime": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "claim": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "development_episodes",
+        "max_old_loss_increase",
+        "min_new_improvement",
+        "formal_delta_lifetime",
+        "claim"
+      ],
+      "additionalProperties": false
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "enum": [
+            "cpu",
+            "auto",
+            "cuda",
+            "mps"
+          ]
+        },
+        "precision": {
+          "type": "string"
+        },
+        "max_job_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_output_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_pending_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_replay_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_hot_edge_identities": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "allow_paid_compute": {
+          "const": false
+        },
+        "allow_external_downloads": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "device",
+        "precision",
+        "max_job_seconds",
+        "max_output_bytes",
+        "max_pending_records",
+        "max_replay_records",
+        "max_hot_edge_identities",
+        "allow_paid_compute",
+        "allow_external_downloads"
+      ],
+      "additionalProperties": false
+    },
+    "disabled_extensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "schema_version",
+    "config_id",
+    "stage",
+    "evidence_class",
+    "model",
+    "task_id",
+    "seed",
+    "graph",
+    "workspace",
+    "learning",
+    "task",
+    "training",
+    "sleep",
+    "evaluation",
+    "acceptance",
+    "resources",
+    "disabled_extensions",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSGN v0.4.1 initial experiment configuration"
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "0.4.1",
+  "status": "proposed_not_executed",
+  "primary_models": [
+    "delta_memory",
+    "static_graph",
+    "replay_only",
+    "graph_fast",
+    "graph_sleep"
+  ],
+  "independent_training_seeds": [
+    0,
+    1,
+    2
+  ],
+  "tracks": [
+    "shared_feature_mechanism",
+    "separately_trained_end_to_end"
+  ],
+  "tasks": [
+    "T1",
+    "T2",
+    "T3"
+  ],
+  "mandatory_controls": [
+    "T4_transplant",
+    "T4_matched_erasure",
+    "T5_fresh_independent_labels",
+    "T5_independent_support_feedback",
+    "T6_write_utility",
+    "T6_reachability"
+  ],
+  "ablation_factors": {
+    "feasibility": [
+      "four_endpoint",
+      "legacy_absolute_sum_labeled_ablation"
+    ],
+    "gradient_mode": [
+      "continuous_full_path_conditional_support",
+      "detached_feature_write_path"
+    ],
+    "address_mode": [
+      "state_dependent",
+      "stable_address"
+    ],
+    "workspace_q_max": [
+      0.65,
+      0.8,
+      0.95
+    ]
+  },
+  "launch_policy": "One factor at a time after baseline pilot; not an automatically authorized Cartesian sweep.",
+  "delta_consolidation": "Give the simple memory a slow/replay option and matched sleep budget for H2.",
+  "match": [
+    "feedback_information",
+    "representation_training",
+    "hyperparameter_search",
+    "resident_and_replay_bytes",
+    "charged_sleep_and_validation_work"
+  ],
+  "separate_frontiers": [
+    "matched_memory",
+    "matched_latency"
+  ]
+}

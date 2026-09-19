@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neuroplastic-v041"
+version = "0.4.1.dev0"
+description = "CSGN v0.4.1 bounded graph and delta-memory correctness reference"
+requires-python = ">=3.13"
+dependencies = ["numpy==2.3.5", "scipy==1.17.0", "torch==2.10.0", "jsonschema==4.26.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["neuroplastic_v041*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/v041"]
+addopts = "--import-mode=importlib"

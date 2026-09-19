@@ -1,0 +1,162 @@
+{
+  "version": "0.4.1",
+  "status": "all_checks_passed",
+  "scope": "local algebra, numerical and gradient checks only; no integrated model training",
+  "seed": 20260916,
+  "group_count": 24,
+  "case_count": 19438,
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "torch": "2.10.0+cpu",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "device": "cpu"
+  },
+  "groups": [
+    {
+      "name": "old_feasible_subset_of_endpoint_set",
+      "status": "pass",
+      "cases": 1000
+    },
+    {
+      "name": "saturated_slow_weight_accepts_inward_correction",
+      "status": "pass",
+      "cases": 1,
+      "effective_before": 1.0,
+      "effective_after": 0.7000000000000003
+    },
+    {
+      "name": "independent_decay_and_convex_combination",
+      "status": "pass",
+      "cases": 3000,
+      "max_identity_error": 2.220446049250313e-16
+    },
+    {
+      "name": "residual_intervals_match_four_vertices",
+      "status": "pass",
+      "cases": 2000
+    },
+    {
+      "name": "projected_graph_descent_endpoint_feasibility_and_budget",
+      "status": "pass",
+      "cases": 3000,
+      "max_descent_bound_violation": 4.440892098500626e-16,
+      "max_l1_write": 0.862150690022498
+    },
+    {
+      "name": "normalized_delta_identity",
+      "status": "pass",
+      "cases": 5000,
+      "max_residual_identity_error": 4.274358644806853e-15
+    },
+    {
+      "name": "transfer_preserves_endpoint_set_and_sum",
+      "status": "pass",
+      "cases": 2000,
+      "max_sum_error": 2.7755575615628914e-16
+    },
+    {
+      "name": "quantized_sum_identity_and_required_rejection",
+      "status": "pass",
+      "cases": 1001
+    },
+    {
+      "name": "receiver_envelope",
+      "status": "pass",
+      "cases": 1000
+    },
+    {
+      "name": "fixed_workspace_contraction_example",
+      "status": "pass",
+      "cases": 1000
+    },
+    {
+      "name": "context_cancellation_and_interaction_repair",
+      "status": "pass",
+      "cases": 4
+    },
+    {
+      "name": "null_mass_and_zero_availability",
+      "status": "pass",
+      "cases": 1
+    },
+    {
+      "name": "ideal_matrix_lifecycle_transplant_and_selective_erasure",
+      "status": "pass",
+      "cases": 18,
+      "max_recall_error": 0.0,
+      "scope": "ideal matrix only; not a trained CSGN transplantation experiment"
+    },
+    {
+      "name": "interference_and_negative_downstream_write_utility",
+      "status": "pass",
+      "cases": 1,
+      "old_prediction": -0.71,
+      "query_utility": -1.4620499999999998
+    },
+    {
+      "name": "EMA_write_attenuation_counterexample",
+      "status": "pass",
+      "cases": 1,
+      "first_write_limit_fraction": 9.999500016666385e-05
+    },
+    {
+      "name": "coupled_sensitivity_and_zero_saliency_counterexamples",
+      "status": "pass",
+      "cases": 2
+    },
+    {
+      "name": "invalid_input_and_zero_design_handling",
+      "status": "pass",
+      "cases": 3
+    },
+    {
+      "name": "reachability_known_floors_and_fixed_coordinates",
+      "status": "pass",
+      "cases": 3
+    },
+    {
+      "name": "reachability_primal_dual_gap",
+      "status": "pass",
+      "cases": 100,
+      "max_gap": 5.617728504603292e-14
+    },
+    {
+      "name": "outer_gradient_through_write_matches_finite_difference",
+      "status": "pass",
+      "cases": 100,
+      "max_absolute_error": 1.8069181947130003e-13
+    },
+    {
+      "name": "detached_feature_write_path_is_a_distinct_ablation",
+      "status": "pass",
+      "cases": 1,
+      "full_outer_gradient": -0.004927321128409889,
+      "detached_path_gradient": 0.0
+    },
+    {
+      "name": "torch_numpy_projected_write_parity",
+      "status": "pass",
+      "cases": 200
+    },
+    {
+      "name": "active_face_gradient_away_from_kinks",
+      "status": "pass",
+      "cases": 1
+    },
+    {
+      "name": "formal_validation_cost_example",
+      "status": "pass",
+      "cases": 1,
+      "episodes_required": 133693
+    }
+  ],
+  "elapsed_seconds": 3.817959572999996,
+  "executed_at_utc": "2026-09-16T05:54:44.227612+00:00",
+  "source_sha256": {
+    "verification/check_math_v0_4_1.py": "81e52b8777c970f2d68c160bf9b7867b5130d4a4408d2a17864bc27ceaa2dc2a",
+    "reference/math_reference.py": "3b03cbd6b64609dd6ad10eab91b6d7127ff4d25b60cc61eabee524b0f8336943",
+    "reference/torch_reference.py": "58aba89b768194ba2c5c556e75328d70759315b43538b0b8ce443ca48b9551c9"
+  }
+}

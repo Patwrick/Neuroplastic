@@ -1,0 +1,213 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.4.1"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "in_progress",
+        "completed",
+        "failed",
+        "aborted",
+        "blocked",
+        "inconclusive"
+      ]
+    },
+    "evidence_class": {
+      "enum": [
+        "local_math",
+        "implementation_smoke",
+        "learned_pilot",
+        "independent_comparison",
+        "formal_conditional"
+      ]
+    },
+    "test_summary": {
+      "type": "object",
+      "properties": {
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "passed",
+        "failed",
+        "skipped"
+      ],
+      "additionalProperties": false
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "value",
+          "unit",
+          "task_id",
+          "condition",
+          "seed",
+          "status"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "seed": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "status": {
+            "enum": [
+              "measured",
+              "not_run",
+              "failed",
+              "inconclusive"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "measured"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "resource_use": {
+      "type": "object"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {}
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "claim_assessment": {
+      "type": "object",
+      "properties": {
+        "H1": {
+          "enum": [
+            "untested",
+            "supported_in_scope",
+            "not_supported",
+            "inconclusive"
+          ]
+        },
+        "H2": {
+          "enum": [
+            "untested",
+            "supported_in_scope",
+            "not_supported",
+            "inconclusive"
+          ]
+        },
+        "H3": {
+          "enum": [
+            "untested",
+            "supported_in_scope",
+            "not_supported",
+            "inconclusive"
+          ]
+        }
+      },
+      "required": [
+        "H1",
+        "H2",
+        "H3"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "status",
+    "evidence_class",
+    "test_summary",
+    "metrics",
+    "resource_use",
+    "artifacts",
+    "limitations",
+    "claim_assessment"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSGN run result",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          },
+          "evidence_class": {
+            "enum": [
+              "learned_pilot",
+              "independent_comparison",
+              "formal_conditional"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "metrics": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}
