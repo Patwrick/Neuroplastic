@@ -1,1 +1,1 @@
-"""Reserved namespace for future CSGN v0.4.1 implementation; no model yet."""
+"""CSGN v0.4.1 mathematical contracts and bounded lifecycle reference."""

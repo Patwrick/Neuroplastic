@@ -1,6 +1,8 @@
 # CSGN v0.4.1 implementation workspace
 
-Status: preparation skeleton; no integrated model, trainer, or learned results.
+Status: M0–M2 correctness implementation: bounded recurrent graph, functional
+projected writes, causal T1 task, synchronous slow fitting and delta baseline.
+Fixed-theta smoke execution does not validate the architecture or H1/H2/H3.
 
 This is the **root repository README**. Start with the verified working subset
 at [Docs/research/csgn_v0_4_1/WORKING_SUBSET.md](Docs/research/csgn_v0_4_1/WORKING_SUBSET.md).
@@ -13,10 +15,10 @@ Report discrepancies instead of importing older designs.
 Verify the subset without importing research code:
 
 ```powershell
-python -I scripts/verify_handoff_subset.py
+python -I -B scripts/verify_handoff_subset.py
 ```
 
-For the future implementation task, create a fresh environment in this worktree:
+Use an isolated environment in this worktree:
 
 ```powershell
 py -3.13 -m venv .venv-v041
@@ -26,11 +28,29 @@ py -3.13 -m venv .venv-v041
 
 Do not activate the legacy checkout's environment or set PYTHONPATH to it.
 Source belongs in src/neuroplastic_v041; pytest is scoped to tests/v041.
-No implementation tests exist yet; an empty test collection is not a pass.
+Implementation tests cover endpoint math, continuous outer gradients, routing,
+causal feedback, shadow rejection, state isolation and persistent cold recall.
 New evidence belongs under outputs/v0.4.1/<unique-run-id>/ and must use the
 handoff schemas. Never overwrite shipped verification results or load an old
 checkpoint as a starting constraint. See ARCHIVE_INDEX.md for historical evidence.
 
-M1/M2 and learned runs require a fresh implementation task. This preparation
-contains no runnable training command. Legacy results are evidence only for their
-original version, including negative, failed, aborted, and inconclusive outcomes.
+The fresh implementation request authorizes M0–M2. Run the contract suite:
+
+```powershell
+.\.venv-v041\Scripts\python.exe -B -m pytest -q
+```
+
+Run the bounded fixed-theta graph/delta lifecycle with a new output directory:
+
+```powershell
+.\.venv-v041\Scripts\python.exe -B -m neuroplastic_v041.experiments.smoke --output outputs/v0.4.1/my-smoke
+```
+
+The command caps execution at 180 seconds, retains failed/partial results, and
+refuses to overwrite existing runs. It trains only a shadow slow-state candidate
+during four sleep steps; it does not train shared representations. Exact source,
+dirty diff, configs, manifests, per-lifetime metrics and diagnostics accompany
+each run. See REPO_ASSESSMENT.md, M2_DECISIONS.md and REPORT_BACK.md for observed
+results, instruction precedence, limitations and the next bounded action.
+M3 training and later stages require separate review. Legacy results remain
+evidence only for their original version, including negative or failed outcomes.

@@ -5,9 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "neuroplastic-v041"
 version = "0.4.1.dev0"
-description = "CSGN v0.4.1 implementation skeleton; no model implemented"
+description = "CSGN v0.4.1 bounded graph and delta-memory correctness reference"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = ["numpy==2.3.5", "scipy==1.17.0", "torch==2.10.0", "jsonschema==4.26.0"]
 
 [project.optional-dependencies]
 test = ["pytest>=8,<10"]

@@ -1,6 +1,7 @@
-# Implementation test skeleton
+# Implementation contracts
 
-Pytest discovery is limited to this directory. No tests have been implemented or
-passed. Build meaningful tests from the handoff CONTRACT_TEST_MAP.md in a fresh
-implementation task. Use the shipped reference functions as independent oracles.
-The release verification script is separately invoked and is not pytest discovery.
+Pytest discovery is limited to this directory. Tests use the unchanged NumPy
+oracle for parity and central finite differences for conditional outer gradients.
+Graph, feedback, sleep rejection and cold-recall tests exercise actual code paths.
+Use Python `-B` so oracle imports create no unexpected release files. The release
+verification script runs separately; local tests do not establish H1/H2/H3.
